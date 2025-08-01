@@ -1,4 +1,4 @@
-# HIS HF Compliance Kit
+# HIS HF Linux Server Compliance Kit
 
 This repository bundles **the necessary files to run an HF Linux Server audit** to run a CIS Level 1 audit compliant (HIS HF server profile) on Ubuntu 22.04 LTS or 24.04 LTS, with a
 small head-less customization file.
