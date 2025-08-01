@@ -6,7 +6,7 @@ small head-less customization file.
 | File | Purpose |
 |------|---------|
 | `auditar_servidor.sh` | Bash script that installs OpenSCAP + Lynis, picks the correct DataStream, applies the customization and saves a ZIP with the results to be sent back. |
-| `ssg-ubuntu2204-ds-tailoring.xml`  | XCCDF 1.2 compliant tailoring – inherits from the CIS Level 1 **Server** profile and  customize HIS HF profile. |
+| `his-hf-tailoring.xml`  | XCCDF 1.2 compliant tailoring – inherits from the CIS Level 1 **Server** profile and customized HIS HF profile. |
 | `ssg-ubuntu2204-ds.xml` / `ssg-ubuntu2404-ds.xml` | Official SCAP Security Guide DataStreams (v 0.1.76). |
 
 **No internet connection is required** on the target server; the script uses the local DataStream files shipped in this repository.
