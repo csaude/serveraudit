@@ -24,7 +24,7 @@ The script will install, if missing:
 
 ```bash
 libopenscap8  lynis  zip  curl
-```bash
+```
 
 ## 2 - Quick start (for system administrators)
 ```bash
@@ -37,7 +37,7 @@ $ chmod +x auditar_servidor.sh
 
 # 3. Run the audit (requires sudo)
 $ sudo ./auditar_servidor.sh
-```bash
+```
 
 Runtime: ±3–6 minutes on a typical Linux system.
 After completion you will see:
@@ -45,7 +45,26 @@ After completion you will see:
 ```bash
 ZIP created: ./auditoria-<hostname>-<timestamp>.zip
 Send this file to the security team.
-```bash
+```
+## 3 - What's inside the ZIP?
 
+```bash
+auditoria-<host>-<date>.zip
+├── relatorio-cis-<host>-<date>.html     # Full OpenSCAP HTML report (customized CIS L1)
+├── checks-custom-<host>-<date>.txt      # OS simple checks Disk encryption, generic accounts, DB SSL
+├── lynis-<host>-<date>.txt              # Lynis quick scan
+└── SHA-256 embedded inside the ZIP      # To chek cif files were tampered during transmission
+```
+
+## 4- Troubleshooting
+
+If there is any trouble running the script please report to it.sec.support@csaude.org.mz
+
+## 5 - Contributing
+
+Pull requests are welcome!
+Please keep changes backwards-compatible with OpenSCAP 1.2.x (default on Ubuntu 22.04/24.04) and XCCDF 1.2 syntax.
+
+© 2025 C-Saude Security Team
 
 
