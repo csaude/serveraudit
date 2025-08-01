@@ -55,6 +55,7 @@ auditoria-<host>-<date>.zip
 ├── lynis-<host>-<date>.txt              # Lynis quick scan
 └── SHA-256 embedded inside the ZIP      # To chek cif files were tampered during transmission
 ```
+Only the three last reports are kept in the same folder where the script is executed. Older reports will be deleted automatically by the script.
 
 ## 4- Troubleshooting
 
