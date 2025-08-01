@@ -43,8 +43,8 @@ Runtime: ±3–6 minutes on a typical Linux system.
 After completion you will see:
 
 ```bash
-ZIP created: ./auditoria-<hostname>-<timestamp>.zip
-Send this file to the security team.
+✔ ZIP criado: ./auditoria-<hostname>-<timestamp>.zip
+Envie este ficheiro para a equipa de segurança.
 ```
 ## 3 - What's inside the ZIP?
 
@@ -53,7 +53,7 @@ auditoria-<host>-<date>.zip
 ├── relatorio-cis-<host>-<date>.html     # Full OpenSCAP HTML report (customized CIS L1)
 ├── checks-custom-<host>-<date>.txt      # OS simple checks Disk encryption, generic accounts, DB SSL
 ├── lynis-<host>-<date>.txt              # Lynis quick scan
-└── SHA-256 embedded inside the ZIP      # To chek cif files were tampered during transmission
+└── SHA-256 embedded inside the ZIP      # For checking file integrity
 ```
 Only the three last reports are kept in the same folder where the script is executed. Older reports will be automatically deleted by the audit script.
 
