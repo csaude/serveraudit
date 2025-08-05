@@ -29,12 +29,41 @@ HOST=$(hostname -s)
 
 ### ------------ Pacotes mínimos -----------------------------
 PKGS=()
-for p in libopenscap8 lynis zip curl; do dpkg -s "$p" &>/dev/null || PKGS+=("$p"); done
+for p in libopenscap8 zip curl; do dpkg -s "$p" &>/dev/null || PKGS+=("$p"); done
 if [[ ${#PKGS[@]} -gt 0 ]]; then
   msg "▶ A instalar pacotes: ${PKGS[*]}"
   sudo apt update -qq
   sudo apt install -y "${PKGS[@]}"
 fi
+
+
+###############################################################################
+# install_latest_lynis  –  fetches Lynis 3.x from cisofy.com and installs it
+###############################################################################
+install_latest_lynis() {
+    local VER="3.1.5"
+    local URL="https://downloads.cisofy.com/lynis/lynis-${VER}.tar.gz"
+    local TMP="/tmp/lynis-$RANDOM"
+
+    msg "▶ Downloading Lynis $VER ..."
+    mkdir -p "$TMP"
+    curl -L --fail -o "$TMP/lynis.tar.gz" "$URL"
+
+    msg "▶ Extracting ..."
+    tar -xzf "$TMP/lynis.tar.gz" -C "$TMP"
+
+    # the tarball expands into $TMP/lynis/
+    DIR="$(find "$TMP" -maxdepth 1 -type d -name 'lynis' | head -1)"
+    [[ -z "$DIR" ]] && { err "Extraction failed."; rm -rf "$TMP"; exit 1; }
+
+    msg "▶ Installing to /usr/local/bin ..."
+    sudo install -m 755 "$DIR/lynis" /usr/local/bin/lynis
+
+    # optional: clean up
+    rm -rf "$TMP"
+
+    msg "✔ Lynis $VER installed ( $(/usr/local/bin/lynis --version) )"
+}
 
 ### ------------ Função para instalar SSG (.deb) --------------
 ds_download() {
@@ -100,12 +129,15 @@ msg "▶ A executar checks personalizados…"
 
 ### ------------ Lynis ---------------------------------------
 LYNIS_TXT="$TMP_DIR/lynis-${HOST}-${DATE}.txt"
+install_latest_lynis
 msg "▶ A executar Lynis (modo rápido)…"
 sudo lynis audit system --quick --report-file "$LYNIS_TXT" --quiet
+sudo /bin/cp /var/log/lynis.log "$TMP_DIR/lynis-${HOST}-${DATE}.log"
+sudo /bin/cp /var/log/lynis-report.dat "$TMP_DIR/lynis-report-${HOST}-${DATE}.dat"
 
 ### ------------ ZIP + SHA-256 -------------------------------
 ZIP="$REPORT_DIR/auditoria-${HOST}-${DATE}.zip"
-zip -j "$ZIP" "$CIS_HTML" "$CUSTOM_TXT" "$LYNIS_TXT" >/dev/null
+zip -j "$ZIP" "$CIS_HTML" "$CUSTOM_TXT" "$LYNIS_TXT" "$TMP_DIR/lynis-${HOST}-${DATE}.log" "$TMP_DIR/lynis-report-${HOST}-${DATE}.dat">/dev/null
 sha256sum "$ZIP" | awk '{print $1}' > "${ZIP}.sha256"
 zip -j -u "$ZIP" "${ZIP}.sha256" >/dev/null
 rm -f "${ZIP}.sha256"
