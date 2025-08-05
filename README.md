@@ -52,7 +52,7 @@ Envie este ficheiro para a equipa de segurança.
 auditoria-<host>-<date>.zip
 ├── relatorio-cis-<host>-<date>.html     # Full OpenSCAP HTML report (customized CIS L1)
 ├── checks-custom-<host>-<date>.txt      # OS simple checks Disk encryption, generic accounts, DB SSL
-├── lynis-<host>-<date>.txt              # Lynis quick scan
+├── lynis-*-<host>-<date>.[txt|log]      # 3 files regarding Lynis scan
 └── SHA-256 embedded inside the ZIP      # For checking file integrity
 ```
 Only the three last reports are kept in the same folder where the script is executed. Older reports will be automatically deleted by the audit script.
